@@ -1,4 +1,6 @@
-import urllib, re
+import urllib
+import re
+
 
 def get_price_from_yahoo(symbols):
     symbol_to_price = {}
@@ -14,6 +16,7 @@ def get_price_from_yahoo(symbols):
         symbol_to_price[symbol] = price
         
     return symbol_to_price
+
 
 def main():
     symbols = ["aapl", "msft", "ibm"]
