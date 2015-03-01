@@ -10,8 +10,8 @@ def get_price_from_yahoo(symbols):
         html_file = urllib.urlopen(url)
         html_text = html_file.read()
         html_file.close()
-        regexpr = '<span id="yfs_l84_' + symbol + '">(.+?)</span>'
-        pattern = re.compile(regexpr)
+        regular_expression = '<span id="yfs_l84_' + symbol + '">(.+?)</span>'
+        pattern = re.compile(regular_expression)
         price = re.findall(pattern, html_text)
         symbol_to_price[symbol] = price
         
