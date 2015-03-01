@@ -83,7 +83,6 @@ class InterfacelifeWallpaperDownloader(WallpaperDownloader):
         super(InterfacelifeWallpaperDownloader, self).__init__(resolution, local_dir)
         self.root_url = 'http://interfacelift.com/wallpaper/downloads/date/any/index{}.html'
 
-
     def get_page_url(self, page):
         return self.root_url.format(page)
 
