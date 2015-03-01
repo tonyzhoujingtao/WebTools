@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import os
 
 from threading import Thread
 import urllib2
@@ -41,6 +42,10 @@ class WallpaperDownloader(object):
 
     def copy_remote_all(self, wallpaper_urls):
         logging.info("Copying " + str(wallpaper_urls) + "...")
+
+        if not os.path.exists(self.local_dir):
+            os.makedirs(self.local_dir)
+
         for remote_url in wallpaper_urls:
             local_uri = self.local_dir + '/' + remote_url.split('/')[-1]
             copy_remote(remote_url, local_uri)
@@ -149,11 +154,11 @@ def get_html(url):
 def main():
     logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)
 
-    downloader = HdWallpaperDownloader('2880x1800', '/tmp/hdwallpapers')
-    downloader.download(15, 17)
+    downloader = HdWallpaperDownloader('2880x1800', '/tmp/hdwallpapers2')
+    downloader.download(17, 19)
 
-    downloader = InterfacelifeWallpaperDownloader('2880x1800', '/tmp/interfacelift')
-    downloader.download(107, 109)
+    downloader = InterfacelifeWallpaperDownloader('2880x1800', '/tmp/interfacelift2')
+    downloader.download(109, 111)
 
 
 if __name__ == "__main__":
