@@ -1,7 +1,10 @@
 __author__ = 'tony.zjt.test@gmail.com (Tony ZHOU)'
 
-import mechanize, re
+import re
 from sets import Set
+
+import mechanize
+
 
 class LinkCollector:
     def __init__(self):

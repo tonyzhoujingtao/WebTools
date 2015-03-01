@@ -2,7 +2,9 @@
 
 __author__ = 'tony.zjt.test@gmail.com (Tony ZHOU)'
 
-import logging, files
+import logging
+import files
+
 
 class SimpleFilter:
     def __init__(self, filter_file_name='SimpleFilterRecord.txt'):
