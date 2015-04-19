@@ -1,6 +1,6 @@
 __author__ = 'tony.zjt.test@gmail.com (Tony ZHOU)'
 
-import nltk, mechanize
+import mechanize
 from bs4 import BeautifulSoup
 from readability.readability import Document
 

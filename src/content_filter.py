@@ -3,7 +3,8 @@
 __author__ = 'tony.zjt.test@gmail.com (Tony ZHOU)'
 
 from content_generator import ContentGenerator
-import logging, re
+import logging
+import re
 
 
 def filter_content(content):
@@ -17,15 +18,14 @@ def filter_content(content):
     
     return content
 
+
 def main():
     logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG)
     
-    contentGenerator = ContentGenerator('http://javarevisited.blogspot.sg/2010/10/basic-networking-commands-in-linuxunix.html')
+    content_generator = ContentGenerator('http://javarevisited.blogspot.sg/2010/10/basic-networking-commands-in-linuxunix.html')
     
-    content = contentGenerator.generate_readable_article()
-    
-#     logging.info(content)
-    
+    content = content_generator.generate_readable_article()
+
     logging.info(filter_content(content))
     
 if __name__ == '__main__':

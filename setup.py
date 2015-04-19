@@ -20,5 +20,5 @@ The ZHOU Python client library makes it easy to interact with web data:
     author_email='tony.zjt.test@gmail.com',
     py_modules=['blogger', 'content_generator', 'copycat', 'docs', 'link', 'stock', 'wallpapers'],
     url='https://code.google.com/p/zhouweb/',
-    package_dir={'':'src'},
+    package_dir={'':'src'}, requires=['mechanize']
 )
