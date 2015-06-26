@@ -1,1 +1,1 @@
- Copyright (C) 1979-2100 Tony ZHOU
+ Copyright (C) 2015 Tony ZHOU
