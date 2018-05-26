@@ -74,7 +74,7 @@ class WallpaperDownloader(object):
         return wallpaper_urls
 
 
-class InterfacelifeWallpaperDownloader(WallpaperDownloader):
+class InterfaceliftDownloader(WallpaperDownloader):
     """Downloader for Interfacelife."""
 
     @staticmethod
@@ -87,8 +87,8 @@ class InterfacelifeWallpaperDownloader(WallpaperDownloader):
     def get_wallpaper_names(page_url):
         """Get the names of the wallpapers from a page."""
         logging.info('Getting wallpaper names in %s ...' % page_url)
-        regular_expressions = InterfacelifeWallpaperDownloader.get_regular_expressions()
-        return InterfacelifeWallpaperDownloader.extract_wallpaper_names(get_html(page_url), regular_expressions)
+        regular_expressions = InterfaceliftDownloader.get_regular_expressions()
+        return InterfaceliftDownloader.extract_wallpaper_names(get_html(page_url), regular_expressions)
 
     @staticmethod
     def extract_wallpaper_names(html, regular_expressions):
@@ -101,7 +101,7 @@ class InterfacelifeWallpaperDownloader(WallpaperDownloader):
 
     def __init__(self, resolution, local_dir):
         """Initialze with resolution and local directory to save the images."""
-        super(InterfacelifeWallpaperDownloader, self).__init__(resolution, local_dir)
+        super(InterfaceliftDownloader, self).__init__(resolution, local_dir)
         self.root_url = 'http://interfacelift.com/wallpaper/downloads/date/any/index{}.html'
 
     def get_page_url(self, page):
@@ -184,13 +184,15 @@ def main():
     """Bootstrap."""
     logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)
 
-    downloader = HdWallpaperDownloader('2880x1800', '/tmp/hdwallpapers2')
+    # downloader = HdWallpaperDownloader('2880x1800', '/tmp/hdwallpapers2')
     # downloader.download(17, 19)
-    downloader.download(1, 16)
+    # downloader.download(1, 16)
 
-    downloader = InterfacelifeWallpaperDownloader('2880x1800', '/tmp/interfacelift2')
+    downloader = InterfaceliftDownloader('2880x1800', '/tmp/interfacelift2')
     # downloader.download(109, 111)
-    downloader.download(1, 108)
+    # downloader.download(1, 108)
+    downloader.download(112, 350)
+
 
 
 if __name__ == "__main__":
