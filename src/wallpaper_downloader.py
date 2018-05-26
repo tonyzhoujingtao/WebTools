@@ -2,6 +2,7 @@
 """Download wallpapers automaticlaly from websites."""
 
 import logging
+import multiprocessing
 import os
 import re
 from threading import Thread
@@ -20,7 +21,7 @@ class WallpaperDownloader(object):
         self.local_dir = local_dir
         self.threads = []
         self.total_threads = 0
-        self.max_threads = 10
+        self.max_threads = multiprocessing.cpu_count()
 
     def download(self, start_page, end_page):
         """Download from start page to end page."""
@@ -96,7 +97,8 @@ class InterfaceliftDownloader(WallpaperDownloader):
         wallpaper_names = []
         for wallpaper_name in extract_wallpaper_names(html, regular_expressions):
             wallpaper_names.append(wallpaper_name.replace('_672x420', ''))
-        logging.info("Find %d Wallpapers: %s" % (len(wallpaper_names), wallpaper_names))
+        logging.info("Find %d Wallpapers: %s" %
+                     (len(wallpaper_names), wallpaper_names))
         return wallpaper_names
 
     def __init__(self, resolution, local_dir):
@@ -134,7 +136,8 @@ class HdWallpaperDownloader(WallpaperDownloader):
     def extract_wallpaper_names(html, regular_expressions):
         """Extract wallpaper names from html using regular expressions."""
         wallpaper_names = extract_wallpaper_names(html, regular_expressions)
-        logging.info("Find %d Wallpapers: %s" % (len(wallpaper_names), wallpaper_names))
+        logging.info("Find %d Wallpapers: %s" %
+                     (len(wallpaper_names), wallpaper_names))
         return wallpaper_names
 
     def __init__(self, resolution, local_dir):
@@ -165,7 +168,8 @@ def extract_wallpaper_names(html, regular_expressions):
 def copy_remote(remote_url, local_filename):
     """Copy resource from a remote url to a local filename."""
     logging.info('Copying %s to %s ...' % (remote_url, local_filename))
-    request = urllib2.Request(remote_url, headers={USER_AGENT: USER_AGENT_VALUE})
+    request = urllib2.Request(
+        remote_url, headers={USER_AGENT: USER_AGENT_VALUE})
     wallpaper_file = urllib2.urlopen(request)
     output = open(local_filename, 'wb')
     output.write(wallpaper_file.read())
@@ -191,7 +195,7 @@ def main():
     downloader = InterfaceliftDownloader('2880x1800', '/tmp/interfacelift2')
     # downloader.download(109, 111)
     # downloader.download(1, 108)
-    downloader.download(112, 350)
+    downloader.download(1, 2)
 
 
 if __name__ == "__main__":
