@@ -80,7 +80,8 @@ class InterfacelifeWallpaperDownloader(WallpaperDownloader):
     @staticmethod
     def get_regular_expressions():
         """Make regular expressions for the image url link."""
-        return 'http://interfacelift.com/wallpaper/previews/(.+?)@2x.jpg', 'http://interfacelift.com/wallpaper/previews/(.+?).jpg'
+        pattern = 'http://interfacelift.com/wallpaper/previews/(.+?)'
+        return pattern + '@2x.jpg', pattern + '.jpg'
 
     @staticmethod
     def get_wallpaper_names(page_url):
@@ -184,10 +185,12 @@ def main():
     logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)
 
     downloader = HdWallpaperDownloader('2880x1800', '/tmp/hdwallpapers2')
-    downloader.download(17, 19)
+    # downloader.download(17, 19)
+    downloader.download(1, 16)
 
     downloader = InterfacelifeWallpaperDownloader('2880x1800', '/tmp/interfacelift2')
-    downloader.download(109, 111)
+    # downloader.download(109, 111)
+    downloader.download(1, 108)
 
 
 if __name__ == "__main__":
