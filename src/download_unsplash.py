@@ -7,15 +7,18 @@ Photo hyperlink pattern: https://unsplash.com/photos/<.+>/download?force=true
 
 
 # TODO:
-    * Download the html of https://unsplash.com/ to /tmp/unsplash.html
+    * Save all the photo hyperlinks to /tmp/photo_links.txt.
 
-    * Crawl all the non-photo hyperlinks in unsplash.html and save them
-    together with https://unsplash.com/ to /tmp/non_photo_links.txt
+    * Download photos to /tmp/unsplash from hyperlinks in /tmp/photo_links.txt.
 
-    * Grep all the photo hyperlinks in the HTMLs of each of the non_photo_links
-    and save to /tmp/photo_links.txt
+    * Delete /tmp/photo_links.txt.
 
-    * Download all the photos to /tmp/photo_links.txt to /tmp/unsplash
+    * Save all non_photo_links to /tmp/non_photo_links.txt.
+
+    * Repeatly crawl all the links in /tmp/non_photo_links.txt until it's empty.
+
+# DONE:
+    * Download the html of https://unsplash.com/ to /tmp/unsplash.html.
 """
 
 import contextlib
