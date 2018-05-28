@@ -1,5 +1,10 @@
 #!/usr/bin/env python
-"""Download wallpapers automaticlaly from websites."""
+"""Download wallpapers automaticlaly from websites.
+
+# TODO:
+
+    * Purge all downloaded images that's less than 20K.
+"""
 
 import logging
 import multiprocessing
@@ -193,9 +198,7 @@ def main():
     # downloader.download(1, 16)
 
     downloader = InterfaceliftDownloader('2880x1800', '/tmp/interfacelift2')
-    # downloader.download(109, 111)
-    # downloader.download(1, 108)
-    downloader.download(1, 2)
+    downloader.download(1, 300)
 
 
 if __name__ == "__main__":
