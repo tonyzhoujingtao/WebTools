@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Download all wallpapers from https://unsplash.com/.
 
 # NOTE:
@@ -7,17 +7,20 @@ Photo hyperlink pattern: https://unsplash.com/photos/<.+>/download?force=true
 
 
 # TODO:
-    * Save all non_photo_urls to /tmp/non_photo_urls.txt.
-
-    * Repeatly crawl all the urls in /tmp/non_photo_urls.txt until it's empty.
+    * Use multiple threads to download for performance improvement.
 """
 
+from concurrent.futures import ThreadPoolExecutor
 import contextlib
+from http.client import InvalidURL
+from urllib.error import HTTPError
 import logging
+import multiprocessing
 import os
 import re
-import urllib2
+import urllib.request
 import uuid
+
 
 USER_AGENT_VALUE = 'Magic Browser'
 USER_AGENT = 'User-Agent'
@@ -37,7 +40,7 @@ def grep_urls(html):
         if href.startswith('http'):
             all_hrefs.add(href)
         else:
-            all_hrefs.add('https://unsplash.com'+href)
+            all_hrefs.add('https://unsplash.com' + href)
 
     unsplash_hrefs = [x for x in all_hrefs if x.startswith('https://unsplash')]
     unsplash_hrefs = [x for x in unsplash_hrefs if 'login_view' not in x]
@@ -58,17 +61,21 @@ def grep_urls(html):
 
 
 def download_html(url):
-    logging.info('Downloading html from %s ...', url)
+    try:
+        logging.info('Downloading html from %s ...', url)
 
-    request = urllib2.Request(url, headers={USER_AGENT: USER_AGENT_VALUE})
+        request = urllib.request.Request(
+            url, headers={USER_AGENT: USER_AGENT_VALUE})
 
-    html = ""
-    with contextlib.closing(urllib2.urlopen(request)) as html_file:
-        html += html_file.read()
+        html = ""
+        with contextlib.closing(urllib.request.urlopen(request)) as html_file:
+            html += html_file.read().decode("utf-8")
 
-    logging.info('Downloading html from %s ... done\n', url)
+        logging.info('Downloading html from %s ... done\n', url)
 
-    return html
+        return html
+    except (HTTPError, UnicodeDecodeError, InvalidURL):
+        return ""
 
 
 def grep_file_name(url):
@@ -84,9 +91,10 @@ def download(url, path):
 
     logging.info('Downloading %s to %s ...', url, local_filename)
 
-    request = urllib2.Request(url, headers={USER_AGENT: USER_AGENT_VALUE})
+    request = urllib.request.Request(
+        url, headers={USER_AGENT: USER_AGENT_VALUE})
 
-    with contextlib.closing(urllib2.urlopen(request)) as wallpaper_file:
+    with contextlib.closing(urllib.request.urlopen(request)) as wallpaper_file:
         with open(local_filename, 'wb') as local_file:
             local_file.write(wallpaper_file.read())
 
@@ -106,24 +114,26 @@ def download_all(photo_urls, path='/tmp/unsplash/'):
 
 
 def main():
-    logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)
+    logging.basicConfig(
+        format='%(asctime)s %(threadName)s %(message)s', level=logging.INFO)
 
     non_photos_new = set(['https://unsplash.com/'])
     non_photos_visited = set()
 
     photos_visited = set()
 
-    while non_photos_new:
-        non_photo_url = non_photos_new.pop()
-        non_photos_visited.add(non_photo_url)
+    with ThreadPoolExecutor(max_workers=multiprocessing.cpu_count()) as executor:
+        while non_photos_new:
+            non_photo_url = non_photos_new.pop()
+            non_photos_visited.add(non_photo_url)
 
-        html = download_html(non_photo_url)
+            html = download_html(non_photo_url)
 
-        photo_urls, non_photo_urls = grep_urls(html)
-        download_all(photo_urls - photos_visited)
-        photos_visited |= photo_urls
+            photo_urls, non_photo_urls = grep_urls(html)
+            executor.submit(download_all, photo_urls - photos_visited)
+            photos_visited |= photo_urls
 
-        non_photos_new |= (non_photo_urls - non_photos_visited)
+            non_photos_new |= (non_photo_urls - non_photos_visited)
 
     logging.info('Downloaded %d images', len(non_photos_visited))
 
