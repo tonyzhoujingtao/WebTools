@@ -1,6 +1,7 @@
 import unittest
 from src import randoms
 
+
 class TestRandoms(unittest.TestCase):
     def setUp(self):
         self.length = 5
@@ -12,6 +13,7 @@ class TestRandoms(unittest.TestCase):
             random_string = randoms.random_string(self.length)
             self.assertFalse(random_string in self.generated_strings)
             self.generated_strings.add(random_string)
+
 
 if __name__ == '__main__':
     unittest.main()
