@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 """Download all wallpapers from https://unsplash.com/.
+
+# TODO:
+* Add option to limit the number of pictures to download.
 """
 
 from concurrent.futures import ThreadPoolExecutor
