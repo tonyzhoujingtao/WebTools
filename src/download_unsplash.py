@@ -5,7 +5,7 @@
 from concurrent.futures import ThreadPoolExecutor
 import contextlib
 from http.client import InvalidURL
-from urllib.error import HTTPError
+from urllib.error import HTTPError, URLError
 import logging
 import multiprocessing
 import os
@@ -66,7 +66,7 @@ def download_html(url):
         logging.info('Downloading html from %s ... done\n', url)
 
         return html
-    except (HTTPError, UnicodeDecodeError, InvalidURL):
+    except (URLError, HTTPError, UnicodeDecodeError, InvalidURL):
         return ""
 
 
