@@ -1,13 +1,5 @@
 #!/usr/bin/env python3
 """Download all wallpapers from https://unsplash.com/.
-
-# NOTE:
-
-Photo hyperlink pattern: https://unsplash.com/photos/<.+>/download?force=true
-
-
-# TODO:
-    * Use multiple threads to download for performance improvement.
 """
 
 from concurrent.futures import ThreadPoolExecutor
