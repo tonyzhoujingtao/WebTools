@@ -11,7 +11,7 @@ import multiprocessing
 import os
 import re
 from threading import Thread
-import urllib2
+from urllib.request import Request, urlopen
 
 USER_AGENT_VALUE = 'Magic Browser'
 USER_AGENT = 'User-Agent'
@@ -173,9 +173,8 @@ def extract_wallpaper_names(html, regular_expressions):
 def copy_remote(remote_url, local_filename):
     """Copy resource from a remote url to a local filename."""
     logging.info('Copying %s to %s ...' % (remote_url, local_filename))
-    request = urllib2.Request(
-        remote_url, headers={USER_AGENT: USER_AGENT_VALUE})
-    wallpaper_file = urllib2.urlopen(request)
+    request = Request(remote_url, headers={USER_AGENT: USER_AGENT_VALUE})
+    wallpaper_file = urlopen(request)
     output = open(local_filename, 'wb')
     output.write(wallpaper_file.read())
     output.close()
@@ -184,8 +183,8 @@ def copy_remote(remote_url, local_filename):
 def get_html(url):
     """Get HTML from URL."""
     logging.debug('Requesting page source from %s ...' % url)
-    request = urllib2.Request(url, headers={USER_AGENT: USER_AGENT_VALUE})
-    html = urllib2.urlopen(request).read()
+    request = Request(url, headers={USER_AGENT: USER_AGENT_VALUE})
+    html = urlopen(request).read()
     return html
 
 
